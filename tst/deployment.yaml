@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tst-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tst-app
+  template:
+    metadata:
+      labels:
+        app: tst-app
+    spec:
+      containers:
+      - name: tst-app
+        image: tst-app:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: SerServicevice
+metadata:
+  name: tst-app-service
+spec:
+  selector:
+    app: tst-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
